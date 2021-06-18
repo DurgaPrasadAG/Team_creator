@@ -6,7 +6,6 @@
 
 void UsnListGenerator::openFile() {
     bool flag = true;
-
     do {
         string choice;
         cout << endl;
@@ -221,21 +220,19 @@ bool UsnListGenerator::usnValidator(const string &usn) {
 }
 
 void UsnListGenerator::getStartingUsnValue() {
-    usnValidated = false;
-    while (!usnValidated) {
+    while (true) {
         cout << "Enter Starting USN : ";
         cin >> startingUsn;
 
         if (!usnValidator(startingUsn)) continue;
-        usnValidated = true;
+        break;
     }
     startingUsnInt = stoi(startingUsn);
     startingUsnList.push_back(startingUsnInt);
 }
 
 void UsnListGenerator::getEndingUsnValue() {
-    usnValidated = false;
-    while (!usnValidated) {
+    while (true) {
         cout << "  Enter ending USN : ";
         cin >> endingUsn;
 
@@ -248,7 +245,7 @@ void UsnListGenerator::getEndingUsnValue() {
             cout << "Ending USN must be greater than starting USN..." << endl;
             continue;
         }
-        usnValidated = true;
+        break;
     }
 
     endingUsnList.push_back(endingUsnInt);
@@ -304,10 +301,8 @@ string UsnListGenerator::askAnotherSeries() {
 }
 
 string UsnListGenerator::ask(const string &message, const string &error) {
-    bool stop = false;
     string input;
-
-    while (!stop) {
+    while (true) {
         cout << message;
         cin >> input;
 
@@ -315,7 +310,7 @@ string UsnListGenerator::ask(const string &message, const string &error) {
             cout << error << endl;
             continue;
         }
-        stop = true;
+        break;
     }
     return input;
 }

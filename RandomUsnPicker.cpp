@@ -32,8 +32,7 @@ void RandomUsnPicker::pickRandomUSN() {
         }
         cout << "USN : " << usnList[i] << endl;
 
-        bool stop = false;
-        while (!stop) {
+        while (true) {
             cout << "Do you to pick another USN ? (Yes - 'y'/No - any key): ";
             cin >> choice;
 
@@ -41,7 +40,7 @@ void RandomUsnPicker::pickRandomUSN() {
                 cout << "Expected 'y' to continue or press any key to go back to main menu." << endl;
                 continue;
             }
-            stop = true;
+            break;
         }
         i++;
     } while (choice == "y" || choice == "Y");

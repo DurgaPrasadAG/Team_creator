@@ -42,8 +42,7 @@ void Shuffle::generateCsv(unsigned int usnListSize, unsigned int sizeOfOneTeam) 
         cout << "Generated teams may require internet connection to open it "
                 "in MS Excel/any csv viewer. " << endl;
 
-        bool stop = false;
-        while (!stop) {
+        while (true) {
             cout << "Your response (Yes - 'y', open file/No - any key): ";
             cin >> response;
 
@@ -61,7 +60,7 @@ void Shuffle::generateCsv(unsigned int usnListSize, unsigned int sizeOfOneTeam) 
                     cout << "Failed to open " << filename << endl;
                 }
             } else {
-                stop = true;
+                break;
             }
         }
     }
@@ -93,9 +92,7 @@ bool Shuffle::fileHandling() {
 
 void Shuffle::shuffler() {
     string response;
-    bool stop = false;
-
-    while (!stop) {
+    while (true) {
         cout << "Type 'c' to continue or type any key to go back to main menu." << endl;
         cout << "Your response : ";
         cin >> response;
@@ -106,7 +103,7 @@ void Shuffle::shuffler() {
         }
 
         maxMembersInOneTeam(response);
-        stop = true;
+        break;
     }
 }
 
@@ -118,9 +115,8 @@ void Shuffle::maxMembersInOneTeam(const string &s) {
             shuffleVectorElements(numbers.size());
 
             string teamSize;
-            bool flag = false;
             unsigned int teamSizeInt;
-            while (!flag) {
+            while (true) {
                 cout << "what should be the team size? (2 to 7): ";
                 cin >> teamSize;
 
@@ -135,7 +131,7 @@ void Shuffle::maxMembersInOneTeam(const string &s) {
                     }
                 }
 
-                flag = true;
+                break;
             }
             generateCsv(numbers.size(), teamSizeInt);
         }
@@ -144,12 +140,16 @@ void Shuffle::maxMembersInOneTeam(const string &s) {
 
 string Shuffle::getTeamDetails(const string &subject) {
     string teamDetails;
-    do {
+    while (true) {
         cout << subject;
         getline(cin, teamDetails);
 
-        if (teamDetails.length() == 0) cout << "No Input received" << endl;
-    } while (teamDetails.length() == 0);
+        if (teamDetails.length() == 0) {
+            cout << "No Input received" << endl;
+            continue;
+        }
+        break;
+    }
 
     return teamDetails;
 }

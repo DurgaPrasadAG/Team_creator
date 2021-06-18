@@ -2,8 +2,6 @@
  * @author - Durga Prasad A G
  */
 
-#pragma once
-
 #include <ctime>
 #include <iostream>
 #include <fstream>
