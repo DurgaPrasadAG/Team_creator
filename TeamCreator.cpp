@@ -20,7 +20,7 @@ int main() {
         string choice;
         cout << endl;
         cout << "           Main menu" << endl;
-        cout << "Type '1' - Create Teams using random rUsnList" << endl;
+        cout << "Type '1' - Create Teams using random USNs" << endl;
         cout << "Type '2' - Pick Random USN" << endl;
         cout << "Type '3' - Generate USN list" << endl;
         cout << "Type '4' - About" << endl;
