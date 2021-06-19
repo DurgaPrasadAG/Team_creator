@@ -1,2 +1,5 @@
 # Project exclude paths
 /cmake-build-debug/
+generated_usn.txt
+generated_teams.csv
+Team_creator.exe

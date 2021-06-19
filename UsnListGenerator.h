@@ -39,25 +39,25 @@ private:
     static void guide(const string &s);
 
     /**
-     * This function Generates Sequential USNs of Given USN range & writes it into
+     * This function Generates Sequential rUsnList of Given USN range & writes it into
      * the file.
      */
     void writeSeqUsnList();
 
     /**
-     * This function writes Non Sequential USNs entered by the user to the file.
+     * This function writes Non Sequential rUsnList entered by the user to the file.
      */
     void writeNonSeqUsnList();
 
     /**
      * This function which gets the data of USN which includes USN validation,
-     * skipping USNs and write sequential USNs to the file.
+     * skipping rUsnList and write sequential rUsnList to the file.
      */
     void seqUsnListGenerator();
 
     /**
      * This function which gets the data of USN which includes USN validation,
-     * and write Non-sequential USNs to the file.
+     * and write Non-sequential rUsnList to the file.
      */
     void nonSeqUsnListGenerator();
 
@@ -100,21 +100,21 @@ private:
     void getEndingUsnValue();
 
     /**
-     * This function skips the USNs entered by the user.
+     * This function skips the rUsnList entered by the user.
      */
     void usnSkipper();
 
     /**
      * Asks user if they want to include another series USN.
      * This function can also be used to continue the same series USN too.
-     * @return If yes, then continue generating and writing sequential USNs.
+     * @return If yes, then continue generating and writing sequential rUsnList.
      */
     string askAnotherSeries();
 
     /**
-     * This function clears all the previously entered USNs in the file.
+     * This function clears all the previously entered rUsnList in the file.
      * Creates new file if it file doesn't exist.
-     * @return If yes, then Clear all USNs in the file.
+     * @return If yes, then Clear all rUsnList in the file.
      */
     bool createNewUsnList();
 

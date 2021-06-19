@@ -46,10 +46,10 @@ public:
      */
     void shuffler();
 
-    vector<unsigned int> numbers;
+    vector<unsigned int> usnList;
 
     /**
-     * This function opens generated_usn file to read USNs.
+     * This function opens generated_usn file to read rUsnList.
      * @return True - If file is empty
      */
     bool fileHandling();

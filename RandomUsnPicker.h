@@ -14,8 +14,9 @@
 using namespace std;
 
 class RandomUsnPicker {
-public:
-    vector<unsigned int> usnList;
+private:
+    vector<unsigned int> rUsnList;
+    Shuffle sf;
 
     /**
      * This is the main function. It calls file Handling function
@@ -26,8 +27,14 @@ public:
     /**
      * This function picks random usn from the generated_usn file.
      */
-    void pickRandomUSN();
+    void pickRandomUsn();
 
+    /**
+     * This function calls shuffleVectorElements() function of class Shuffle.
+     */
+    void shuffleUsn();
+
+public:
     /**
      * This default constructor calls init function.
      */

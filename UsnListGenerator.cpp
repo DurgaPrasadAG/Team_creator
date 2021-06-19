@@ -35,7 +35,7 @@ void UsnListGenerator::openFile() {
                     doNotExecute = true;
                     return;
                 default:
-                    cout << "Please input numbers in range 1 to 3 only." << endl;
+                    cout << "Please input rUsnList in range 1 to 3 only." << endl;
                     flag = true;
             }
         }
@@ -255,7 +255,7 @@ void UsnListGenerator::usnSkipper() {
     string skip;
     message = "Do you want to skip some usn? (Y/N): ";
     error = "Expected 'y' to continue "
-           "press any key to go back to usn list generator menu";
+            "Type any alphabet or any digit to go back to usn list generator menu";
 
     skip = ask(message, error);
 
@@ -292,9 +292,9 @@ void UsnListGenerator::usnSkipper() {
 }
 
 string UsnListGenerator::askAnotherSeries() {
-    message = "Do you want to add another series usn ? (Yes - 'y' /N0 - any key): ";
+    message = "Do you want to add another series usn ? (Yes - 'y' /N0 - any alphabet or any digit): ";
     error = "Expected 'y' to continue or "
-           "press any key to go back to usn list generator menu";
+            "Type any alphabet or any digit to go back to usn list generator menu";
     string response = ask(message, error);
 
     return response;
@@ -320,11 +320,11 @@ bool UsnListGenerator::createNewUsnList() {
     bool flag = true;
     bool cont = false;
     do {
-        cout << "Type 'C' to continue. (No - any key): ";
+        cout << "Type 'C' to continue. (No - any alphabet or any digit): ";
         cin >> confirm;
 
         if (confirm.length() > 1) {
-            cout << "Expected 'C' or type any key to go back to file handling menu" << endl;
+            cout << "Expected 'C' or type any alphabet or any digit to go back to file handling menu" << endl;
         } else if (confirm == "c" || confirm == "C") {
             cout << "Opening " << filename << " file..." << endl;
             file_out.open(filename, ios::out | ios::trunc);

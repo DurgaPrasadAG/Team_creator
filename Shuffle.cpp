@@ -30,7 +30,7 @@ void Shuffle::generateCsv(unsigned int usnListSize, unsigned int sizeOfOneTeam) 
                 teamNo++;
                 file_out << endl << teamName << " " << teamNo << ',';
             }
-            file_out << " " << numbers[i] << ',';
+            file_out << " " << usnList[i] << ',';
         }
         file_out.close();
 
@@ -43,11 +43,11 @@ void Shuffle::generateCsv(unsigned int usnListSize, unsigned int sizeOfOneTeam) 
                 "in MS Excel/any csv viewer. " << endl;
 
         while (true) {
-            cout << "Your response (Yes - 'y', open file/No - any key): ";
+            cout << "Your response (Yes - 'y', open file/No - any alphabet or any digit): ";
             cin >> response;
 
             if (response.length() > 1) {
-                cout << "Expected 'y' to continue or press any key to go back to main menu." << endl;
+                cout << "Expected 'y' to continue or press any alphabet or any digit to go back to main menu." << endl;
                 continue;
             }
 
@@ -71,7 +71,7 @@ void Shuffle::shuffleVectorElements(unsigned int usnListSize) {
 
     for (unsigned int i = usnListSize - 1; i > 0; i--) {
         unsigned int j = rand() % (i + 1);
-        swap(numbers[i], numbers[j]);
+        swap(usnList[i], usnList[j]);
     }
 }
 
@@ -79,12 +79,18 @@ bool Shuffle::fileHandling() {
     int number;
     ifstream input_file("generated_usn.txt");
 
-    if (input_file.peek() == EOF) {
-        cout << "USN list is empty..." << endl;
+    if (!input_file.is_open()) {
+        cout << "generated_usn.txt file doesn't exist." << endl;
+        cout << "You need to Generate USN list. "
+                "It will automatically create generated_usn.txt file." << endl;
+        return true;
+    } else if (input_file.peek() == EOF) {
+        cout << "USN list is empty." << endl;
+        cout << "You need to Generate USN list..." << endl;
         return true;
     } else {
         while (input_file >> number) {
-            numbers.push_back(number);
+            usnList.push_back(number);
         }
         return false;
     }
@@ -93,12 +99,12 @@ bool Shuffle::fileHandling() {
 void Shuffle::shuffler() {
     string response;
     while (true) {
-        cout << "Type 'c' to continue or type any key to go back to main menu." << endl;
+        cout << "Type 'c' to continue or type any alphabet or any digit to go back to main menu." << endl;
         cout << "Your response : ";
         cin >> response;
 
         if (response.length() > 1) {
-            cout << "Expected 'c' to continue or press any key to go back to main menu." << endl;
+            cout << "Expected 'c' to continue or press any alphabet or any digit to go back to main menu." << endl;
             continue;
         }
 
@@ -112,7 +118,7 @@ void Shuffle::maxMembersInOneTeam(const string &s) {
     if (s == "c" || s == "C") {
         isFileEmpty = fileHandling();
         if (!isFileEmpty) {
-            shuffleVectorElements(numbers.size());
+            shuffleVectorElements(usnList.size());
 
             string teamSize;
             unsigned int teamSizeInt;
@@ -133,7 +139,7 @@ void Shuffle::maxMembersInOneTeam(const string &s) {
 
                 break;
             }
-            generateCsv(numbers.size(), teamSizeInt);
+            generateCsv(usnList.size(), teamSizeInt);
         }
     }
 }

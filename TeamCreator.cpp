@@ -3,7 +3,6 @@
  */
 
 #include <iostream>
-#include <cstdlib>
 #include "RandomUsnPicker.h"
 #include "UsnListGenerator.h"
 
@@ -21,7 +20,7 @@ int main() {
         string choice;
         cout << endl;
         cout << "           Main menu" << endl;
-        cout << "Type '1' - Create Teams using random USNs" << endl;
+        cout << "Type '1' - Create Teams using random rUsnList" << endl;
         cout << "Type '2' - Pick Random USN" << endl;
         cout << "Type '3' - Generate USN list" << endl;
         cout << "Type '4' - About" << endl;
@@ -82,8 +81,8 @@ void TeamCreator::about() {
 
     string response;
     do {
-        cout <<"\n\n\n\n\n";
-        cout << "Type any key to go back to main menu." << endl;
+        cout << "\n\n\n\n\n";
+        cout << "Type any alphabet or any digit to go back to main menu." << endl;
         cout << "Your response : ";
         cin >> response;
     } while (response[0] == '\0');
