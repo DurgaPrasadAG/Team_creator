@@ -18,7 +18,7 @@ void UsnListGenerator::openFile() {
         cin >> choice;
 
         if (choice.length() > 1) {
-            cout << "Please input in range 1 to 3 only." << endl;
+            cout << "Please input choice in range 1 to 3 only." << endl;
             continue;
         } else {
             switch (choice[0]) {
@@ -35,7 +35,7 @@ void UsnListGenerator::openFile() {
                     doNotExecute = true;
                     return;
                 default:
-                    cout << "Please input rUsnList in range 1 to 3 only." << endl;
+                    cout << "Please input choice in range 1 to 3 only." << endl;
                     flag = true;
             }
         }
@@ -104,17 +104,13 @@ void UsnListGenerator::seqUsnListGenerator() {
             stop = startingUsnValidator();
         }
 
-        stop = false;
-        while (!stop) {
-            getEndingUsnValue();
-            stop = endingUsnValidator();
-        }
+        getEndingUsnValue();
 
         usnSkipper();
         writeSeqUsnList();
         anotherSeries = askAnotherSeries();
 
-        count++;
+        seqCount++;
     } while (anotherSeries == "y" || anotherSeries == "Y");
 }
 
@@ -158,25 +154,26 @@ void UsnListGenerator::nonSeqUsnListGenerator() {
 
     string usn;
     int usnInt;
-
-    unsigned int i = 0;
     do {
         cout << "Enter USN : ";
         cin >> usn;
 
-        if (usn == "create" || usn == "Create" || usn == "CREATE") break;
-        if (!usnValidator(usn)) continue;
+        if (usn == "create" || usn == "Create" || usn == "CREATE") {
+            break;
+        }
 
-        if (i >= 1) {
-            if (stoi(usn) <= nonSeqUsnList[i - 1]) {
-                cout << usn << " must be greater than previously entered USN." << endl;
+        if (!usnValidator(usn)) {
+            continue;
+        } else if (nonSeqCount >= 1) {
+            if (stoi(usn) <= nonSeqUsnList[nonSeqCount - 1]) {
+                cout << usn << " must be greater than " << nonSeqUsnList[nonSeqCount - 1] << endl;
                 continue;
             }
         }
 
         usnInt = stoi(usn);
         nonSeqUsnList.push_back(usnInt);
-        i++;
+        nonSeqCount++;
     } while (true);
 
     writeNonSeqUsnList();
@@ -192,8 +189,6 @@ void UsnListGenerator::writeNonSeqUsnList() {
     } else {
         cout << "USN list is not generated because USN isn't provided." << endl;
     }
-
-    nonSeqUsnList.clear();
 }
 
 bool UsnListGenerator::isNumber(const string &usn) {
@@ -224,7 +219,17 @@ void UsnListGenerator::getStartingUsnValue() {
         cout << "Enter Starting USN : ";
         cin >> startingUsn;
 
-        if (!usnValidator(startingUsn)) continue;
+        if (!usnValidator(startingUsn)) {
+            continue;
+        }
+
+        if (!nonSeqUsnList.empty()) {
+            if (stoi(startingUsn) <= nonSeqUsnList[nonSeqUsnList.size() - 1]) {
+                cout << "Starting USN must be greater than last entered Non-Sequential USN." << endl;
+                continue;
+            }
+        }
+
         break;
     }
     startingUsnInt = stoi(startingUsn);
@@ -279,7 +284,7 @@ void UsnListGenerator::usnSkipper() {
                 cout << skipUSN << " shouldn't be smaller than starting USN." << endl;
                 continue;
             } else if (i >= 1) {
-                if (stoi(skipUSN) < skipUsnList[i - 1]) {
+                if (stoi(skipUSN) <= skipUsnList[i - 1]) {
                     cout << skipUSN << " must be greater than previously entered USN." << endl;
                     continue;
                 }
@@ -326,6 +331,17 @@ bool UsnListGenerator::createNewUsnList() {
         if (confirm.length() > 1) {
             cout << "Expected 'C' or type any alphabet or any digit to go back to file handling menu" << endl;
         } else if (confirm == "c" || confirm == "C") {
+            nonSeqCount = 0;
+            if (!nonSeqUsnList.empty()) {
+                nonSeqUsnList.clear();
+            }
+
+            seqCount = 0;
+            if (!startingUsnList.empty()) {
+                startingUsnList.clear();
+                endingUsnList.clear();
+            }
+
             cout << "Opening " << filename << " file..." << endl;
             file_out.open(filename, ios::out | ios::trunc);
             flag = false;
@@ -338,45 +354,16 @@ bool UsnListGenerator::createNewUsnList() {
     return cont;
 }
 
-bool UsnListGenerator::endingUsnValidator() {
-    bool stop = true;
-    if (count >= 1) {
-        unsigned int euInt = stoi(endingUsn);
-
-        for (unsigned int i = 0; i < endingUsnList.size() - 1; i++) {
-            if ((euInt >= startingUsnList[i]) && (euInt <= endingUsnList[i])) {
-                cout << "USN already entered" << endl;
-                endingUsnList.pop_back();
-                stop = false;
-            }
-
-            unsigned int max =
-                    *max_element(endingUsnList.begin(), endingUsnList.end() - 1);
-            unsigned int min = *min_element(startingUsnList.begin(), startingUsnList.end());
-
-            if ((startingUsnInt == min) && (euInt > max)) {
-                cout << "Ending USN is greater than all previously entered USN..."
-                     << endl;
-                endingUsnList.pop_back();
-                stop = false;
-            }
-        }
-    }
-
-    return stop;
-}
-
 bool UsnListGenerator::startingUsnValidator() {
     bool stop = true;
-    if (count >= 1) {
+
+    if (seqCount >= 1) {
         unsigned int suInt = startingUsnInt;
 
-        for (unsigned int i = 0; i < startingUsnList.size() - 1; i++) {
-            if ((suInt >= startingUsnList[i]) && (suInt <= endingUsnList[i])) {
-                cout << "USN Already entered" << endl;
-                startingUsnList.pop_back();
-                stop = false;
-            }
+        if (suInt <= endingUsnList[seqCount - 1]) {
+            cout << "USN must be greater than ending USN." << endl;
+            startingUsnList.pop_back();
+            stop = false;
         }
     }
     return stop;

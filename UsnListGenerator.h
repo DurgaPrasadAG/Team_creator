@@ -19,7 +19,8 @@ private:
     string anotherSeries{};
     string message, error;
 
-    unsigned int count = 0;
+    unsigned int seqCount = 0;
+    unsigned int nonSeqCount = 0;
     unsigned int startingUsnInt{};
     unsigned int endingUsnInt{};
 
@@ -29,7 +30,6 @@ private:
     vector<unsigned int> nonSeqUsnList;
 
     bool doNotExecute = false;
-    bool usnValidated = false;
 
     /**
      * This function displays the title of the menu &
@@ -123,12 +123,6 @@ private:
      * @return True, If starting USN is completely validated.
      */
     bool startingUsnValidator();
-
-    /**
-     * This function is for ending USN validation.
-     * @return True - If ending USN is completely validated.
-     */
-    bool endingUsnValidator();
 
     /**
      * Function to ask the user to continue or go back to the previous menu.
