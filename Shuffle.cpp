@@ -66,7 +66,7 @@ void Shuffle::generateCsv(unsigned int usnListSize, unsigned int sizeOfOneTeam) 
     }
 }
 
-void Shuffle::shuffleVectorElements(unsigned int usnListSize) {
+void Shuffle::shuffle(unsigned int usnListSize) {
     srand(time(nullptr));
 
     for (unsigned int i = usnListSize - 1; i > 0; i--) {
@@ -75,7 +75,7 @@ void Shuffle::shuffleVectorElements(unsigned int usnListSize) {
     }
 }
 
-bool Shuffle::fileHandling() {
+bool Shuffle::openFile() {
     int number;
     ifstream input_file("generated_usn.txt");
 
@@ -116,9 +116,9 @@ void Shuffle::shuffler() {
 void Shuffle::maxMembersInOneTeam(const string &s) {
     bool isFileEmpty;
     if (s == "c" || s == "C") {
-        isFileEmpty = fileHandling();
+        isFileEmpty = openFile();
         if (!isFileEmpty) {
-            shuffleVectorElements(usnList.size());
+            shuffle(usnList.size());
 
             string teamSize;
             unsigned int teamSizeInt;

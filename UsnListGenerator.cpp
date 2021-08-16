@@ -27,11 +27,13 @@ void UsnListGenerator::openFile() {
                     break;
                 case '2':
                     cout << "Opening " << filename << " file..." << endl;
-                    file_out.open(filename, ios::out | ios::app);
+                    file_out.open(filename, ios::in | ios::out | ios::app);
+                    checkIsFileEmpty();
                     flag = false;
                     break;
                 case '3':
                     file_out.close();
+                    fileAppending = false;
                     doNotExecute = true;
                     return;
                 default:
@@ -164,8 +166,17 @@ void UsnListGenerator::nonSeqUsnListGenerator() {
 
         if (!usnValidator(usn)) {
             continue;
+        }
+
+        unsigned int nonSeqUsnInt = stoi(usn);
+        if (!endingUsnList.empty()) {
+            unsigned int lastEndingSeqUsn = endingUsnList[endingUsnList.size() - 1];
+            if (nonSeqUsnInt <= lastEndingSeqUsn) {
+                cout << usn << " must be greater than " << lastEndingSeqUsn << endl;
+                continue;
+            }
         } else if (nonSeqCount >= 1) {
-            if (stoi(usn) <= nonSeqUsnList[nonSeqCount - 1]) {
+            if (nonSeqUsnInt <= nonSeqUsnList[nonSeqCount - 1]) {
                 cout << usn << " must be greater than " << nonSeqUsnList[nonSeqCount - 1] << endl;
                 continue;
             }
@@ -199,7 +210,7 @@ bool UsnListGenerator::isNumber(const string &usn) {
     );
 }
 
-bool UsnListGenerator::usnValidator(const string &usn) {
+bool UsnListGenerator::usnValidator(const string &usn) const {
     if (usn.length() != 5) {
         cout << "USN length must be of length 5 only." << endl;
         return false;
@@ -209,6 +220,13 @@ bool UsnListGenerator::usnValidator(const string &usn) {
     } else if (usn[0] == '0') {
         cout << "USN beginning with 0 or if USN itself 0 is not valid" << endl;
         return false;
+    } else if (fileAppending) {
+        if (stoi(usn) <= lastUsn) {
+            cout << "USN must be greater than last USN in generated_usn.txt file" << endl;
+            return false;
+        } else {
+            return true;
+        }
     } else {
         return true;
     }
@@ -225,7 +243,7 @@ void UsnListGenerator::getStartingUsnValue() {
 
         if (!nonSeqUsnList.empty()) {
             if (stoi(startingUsn) <= nonSeqUsnList[nonSeqUsnList.size() - 1]) {
-                cout << "Starting USN must be greater than last entered Non-Sequential USN." << endl;
+                cout << "Starting USN must be greater than previously entered USN." << endl;
                 continue;
             }
         }
@@ -367,4 +385,15 @@ bool UsnListGenerator::startingUsnValidator() {
         }
     }
     return stop;
+}
+
+void UsnListGenerator::checkIsFileEmpty() {
+    if (file_out.peek() != EOF) {
+        file_out.seekp(-8, ios::end);
+        file_out >> lastUsn;
+        fileAppending = true;
+    } else {
+        file_out.close();
+        file_out.open(filename, ios::out | ios::app);
+    }
 }

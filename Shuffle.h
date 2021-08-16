@@ -39,7 +39,7 @@ public:
      * Shuffles vector elements of usn list size from the end and stops i value reach 1.
      * @param usnListSize - usn list size
      */
-    void shuffleVectorElements(unsigned int usnListSize);
+    void shuffle(unsigned int usnListSize);
 
     /**
      * This is the main function of Shuffle. This calls maxMembersInOneTeam function.
@@ -52,5 +52,5 @@ public:
      * This function opens generated_usn file to read rUsnList.
      * @return True - If file is empty
      */
-    bool fileHandling();
+    bool openFile();
 };

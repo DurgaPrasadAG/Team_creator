@@ -30,7 +30,7 @@ private:
     void pickRandomUsn();
 
     /**
-     * This function calls shuffleVectorElements() function of class Shuffle.
+     * This function calls shuffle() function of class Shuffle.
      */
     void shuffleUsn();
 

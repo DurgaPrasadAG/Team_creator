@@ -18,7 +18,7 @@ private:
     string endingUsn;
     string anotherSeries{};
     string message, error;
-
+    unsigned int lastUsn{};
     unsigned int seqCount = 0;
     unsigned int nonSeqCount = 0;
     unsigned int startingUsnInt{};
@@ -30,7 +30,7 @@ private:
     vector<unsigned int> nonSeqUsnList;
 
     bool doNotExecute = false;
-
+    bool fileAppending = false;
     /**
      * This function displays the title of the menu &
      * USN format to input.
@@ -85,7 +85,7 @@ private:
      * @param usn - Input entered by the user.
      * @return True if USN is valid.
      */
-    static bool usnValidator(const string &usn);
+    bool usnValidator(const string &usn) const;
 
     /**
      * Gets starting USN value and calls
@@ -131,6 +131,9 @@ private:
      * @return input
      */
     static string ask(const string &message, const string &error);
+
+    void checkIsFileEmpty();
+
 public:
 
     UsnListGenerator() {

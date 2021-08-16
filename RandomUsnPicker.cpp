@@ -6,7 +6,7 @@
 
 void RandomUsnPicker::init() {
     bool isFileEmpty;
-    isFileEmpty = sf.fileHandling();
+    isFileEmpty = sf.openFile();
 
     if (!isFileEmpty) {
         shuffleUsn();
@@ -20,7 +20,7 @@ void RandomUsnPicker::pickRandomUsn() {
 
     do {
         if (i == rUsnList.size()) {
-            cout << "Last USN from the USN list has been reached. Shuffling rUsnList again." << endl;
+            cout << "Last USN from the USN list has been reached. Shuffling UsnList again." << endl;
             i = 0;
             rUsnList.clear();
             shuffleUsn();
@@ -42,6 +42,6 @@ void RandomUsnPicker::pickRandomUsn() {
 }
 
 void RandomUsnPicker::shuffleUsn() {
-    sf.shuffleVectorElements(sf.usnList.size());
+    sf.shuffle(sf.usnList.size());
     rUsnList = sf.usnList;
 }
